@@ -1,18 +1,15 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { Box, Button } from "@chakra-ui/react";
-import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import { Wrapper } from "../components/Wrapper";
 import { InputField } from "../components/InputField";
-import { useRegisterMutation } from "../generated/graphql";
+import { useLoginMutation } from "../generated/graphql";
 import { toErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
 
-interface RegisterProps {}
-
-export const Register: React.FC<RegisterProps> = ({}) => {
+export const Login: React.FC<{}> = ({}) => {
   const router = useRouter();
-  const [, register] = useRegisterMutation();
+  const [, login] = useLoginMutation();
   return (
     <>
       <Wrapper variant="small">
@@ -20,11 +17,12 @@ export const Register: React.FC<RegisterProps> = ({}) => {
           initialValues={{ username: "", password: "" }}
           onSubmit={async (values, { setErrors }) => {
             console.log(values);
-            const response = await register(values);
-            if (response.data?.register.errors) {
-              setErrors(toErrorMap(response.data.register.errors));
-            } else if (response.data?.register.user) {
+            const response = await login({ options: values });
+            if (response.data?.login.errors) {
+              setErrors(toErrorMap(response.data.login.errors));
+            } else if (response.data?.login.user) {
               // User logged in successfully
+              console.log(response.data.login.user);
               router.push("/");
             }
           }}
@@ -50,7 +48,7 @@ export const Register: React.FC<RegisterProps> = ({}) => {
                 isLoading={isSubmitting}
                 colorScheme="teal"
               >
-                Register
+                Login
               </Button>
             </Form>
           )}
@@ -61,4 +59,4 @@ export const Register: React.FC<RegisterProps> = ({}) => {
   );
 };
 
-export default Register;
+export default Login;
