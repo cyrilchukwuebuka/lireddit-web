@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { Box, Button } from "@chakra-ui/react";
-import { DarkModeSwitch } from "../components/DarkModeSwitch";
+// import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import { Wrapper } from "../components/Wrapper";
 import { InputField } from "../components/InputField";
 import { useRegisterMutation } from "../generated/graphql";

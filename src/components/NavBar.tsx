@@ -8,7 +8,7 @@ interface NavBarProps {}
 export const NavBar: React.FC<NavBarProps> = ({}) => {
   const [{fetching: logoutFetching}, logout] = useLogoutMutation();
   const [{ data, fetching }] = useMeQuery();
-  console.log(data)
+  // console.log(data)
   let body: JSX.Element | null = null;
 
   // data is loading
@@ -16,7 +16,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     // console.log("data.me.username");
   } else if (!data?.me) {
     // user not logged in
-    console.log("data.me.username");
+    // console.log("data.me.username");
     body = (
       <>
         <NextLink href="/login">

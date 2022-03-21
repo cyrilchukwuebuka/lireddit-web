@@ -124,6 +124,11 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', _id: number, username: string } | null };
 
+export type PostQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PostQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string }> };
+
 export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   _id
@@ -183,4 +188,18 @@ export const MeDocument = gql`
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const PostDocument = gql`
+    query Post {
+  posts {
+    _id
+    createdAt
+    updatedAt
+    title
+  }
+}
+    `;
+
+export function usePostQuery(options?: Omit<Urql.UseQueryArgs<PostQueryVariables>, 'query'>) {
+  return Urql.useQuery<PostQuery>({ query: PostDocument, ...options });
 };
