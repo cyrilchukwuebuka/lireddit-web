@@ -5,7 +5,7 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => {
   const [{data}] = usePostQuery()
-  console.log(data)
+  // console.log(data)
   return (
     <>
       <NavBar />
