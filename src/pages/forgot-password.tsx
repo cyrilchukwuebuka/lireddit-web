@@ -11,7 +11,7 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 import { toErrorMap } from "../utils/toErrorMap";
 import login from "./login";
 
-const forgotPassword: React.FC<{}> = ({}) => {
+const ForgotPassword: React.FC<{}> = ({}) => {
   const [complete, setComplete] = useState(false);
   const [_, forgotPassword] = useForgotPasswordMutation();
 
@@ -59,4 +59,4 @@ const forgotPassword: React.FC<{}> = ({}) => {
   );
 };
 
-export default withUrqlClient(createUrqlClient, { ssr: false })(forgotPassword);
+export default withUrqlClient(createUrqlClient, { ssr: false })(ForgotPassword);
