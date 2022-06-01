@@ -4,6 +4,7 @@ import { LogoutMutation, MeQuery, MeDocument, RegisterMutation, LoginMutation, C
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import Router from "next/router";
 import { pipe, tap } from 'wonka';
+import { isServer } from "./isServer";
 
 export const errorExchange: Exchange = ({ forward }) => (ops$) => {
   return pipe(
@@ -11,7 +12,7 @@ export const errorExchange: Exchange = ({ forward }) => (ops$) => {
     tap(({ error }) => {
       // if the Operation result has an error, send a request to sentry
       if (error) {
-        Router.replace("/login");
+        !isServer && Router.replace("/login");
       }
     })
   )
