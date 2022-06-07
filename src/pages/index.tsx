@@ -19,41 +19,43 @@ const Index = () => {
         console.log(data?.posts.hasMore, data?.posts.posts.length);
   return (
     <Layout>
-      <Flex align='center'>
+      <Flex align="center">
         <Heading>LiReddit</Heading>
         <NextLink href="/create-post">
-          <Link ml='auto'>create post</Link>
+          <Link ml="auto">create post</Link>
         </NextLink>
       </Flex>
       <br />
-      {
-        !data && fetching ? (
-          <div>loading...</div>
-        ) : (
-          <Stack spacing={8}>
-            {data?.posts.posts.map((post) => (
-              <Box key={post._id} p={5} shadow='md' borderWidth='1px'>
-                <Heading fontSize='xl'>{post.title}</Heading>
-                <Text mt={4}>{post.textSnippet.concat('...')}</Text>
-              </Box>
-            ))}
-          </Stack>
-        )
-      }
-      {
-        data && data.posts.hasMore ? (
-          <Flex>
-            <Button onClick={() => {
+      {!data && fetching ? (
+        <div>loading...</div>
+      ) : (
+        <Stack spacing={8}>
+          {data?.posts.posts.map((post) => (
+            <Box key={post._id} p={5} shadow="md" borderWidth="1px">
+              <Heading fontSize="xl">{post.title}</Heading>
+              <Text> posted by {post.creator.username}</Text>
+              <Text mt={4}>{post.textSnippet.concat("...")}</Text>
+            </Box>
+          ))}
+        </Stack>
+      )}
+      {data && data.posts.hasMore ? (
+        <Flex>
+          <Button
+            onClick={() => {
               setVariables({
                 limit: variables.limit,
                 cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
               });
-            }} isLoading={fetching} m='auto' my={8}>
-              load more
-            </Button>
-          </Flex>
-        ) : null
-      }
+            }}
+            isLoading={fetching}
+            m="auto"
+            my={8}
+          >
+            load more
+          </Button>
+        </Flex>
+      ) : null}
     </Layout>
   );
 };
