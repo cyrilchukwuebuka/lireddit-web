@@ -13,7 +13,6 @@ import Router from "next/router";
 import { pipe, tap } from "wonka";
 import { isServer } from "./isServer";
 import { stringifyVariables } from "@urql/core";
-// import { Resolver, Variables, NullArray } from "../types";
 
 export type MergeMode = "before" | "after";
 
