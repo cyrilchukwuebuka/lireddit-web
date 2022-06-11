@@ -8,12 +8,12 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { ChevronUpIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
 import { withUrqlClient } from "next-urql";
 import NextLink from "next/link";
 import { useState } from "react";
 import { Layout } from "../components/Layout";
-import { usePostsQuery } from "../generated/graphql";
+import { useDeletePostMutation, usePostsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { UpdootSection } from "../components/UpdootSection";
 
@@ -25,6 +25,7 @@ const Index = () => {
   const [{ data, fetching }] = usePostsQuery({
     variables,
   });
+  const [_, deletePost] = useDeletePostMutation()
 
   if (!fetching && !data) {
     return <div>Query failed for some reason</div>;
@@ -32,24 +33,32 @@ const Index = () => {
 
   return (
     <Layout>
-      <Flex align="center">
-        <Heading>LiReddit</Heading>
-        <NextLink href="/create-post">
-          <Link ml="auto">create post</Link>
-        </NextLink>
-      </Flex>
-      <br />
       {!data && fetching ? (
         <div>loading...</div>
       ) : (
         <Stack spacing={8}>
           {data?.posts.posts.map((post) => (
+            !post ? null :
             <Flex key={post._id} p={5} shadow="md" borderWidth="1px">
               <UpdootSection post={post} />
-              <Box>
-                <Heading fontSize="xl">{post.title}</Heading>
+              <Box flex={1}>
+                <NextLink href="/post/[id]" as={`/post/${post._id}`}>
+                  <Link>
+                    <Heading fontSize="xl">{post.title}</Heading>
+                  </Link>
+                </NextLink>
                 <Text> posted by {post.creator.username}</Text>
-                <Text mt={4}>{post.textSnippet.concat("...")}</Text>
+                <Flex align='center'>
+                  <Text flex={1} mt={4}>{post.textSnippet.concat("...")}</Text>
+                  <IconButton
+                    onClick={() => {
+                      deletePost({ postId: post._id })
+                    }}
+                    colorScheme='red'
+                    aria-label="delete post"
+                    icon={<DeleteIcon />}
+                  />
+                </Flex>
               </Box>
             </Flex>
           ))}

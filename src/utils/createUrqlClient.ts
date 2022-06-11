@@ -1,4 +1,4 @@
-import { dedupExchange, Exchange, fetchExchange, Query } from "urql";
+import { dedupExchange, Exchange, fetchExchange, Mutation, Query } from "urql";
 import { cacheExchange, Resolver } from "@urql/exchange-graphcache";
 import {
   LogoutMutation,
@@ -8,6 +8,7 @@ import {
   LoginMutation,
   ChangePasswordMutation,
   VoteMutationVariables,
+  DeletePostMutationVariables,
 } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import Router from "next/router";
@@ -101,6 +102,16 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
         },
         updates: {
           Mutation: {
+            deletePost: (_result, args, cache, info) => {
+              // const allFields = cache.inspectFields("Query");
+              // const fieldInfos = allFields.filter(
+              //   (info) => info.fieldName === "posts"
+              // );
+              // fieldInfos.forEach((fi) => {
+              //   cache.invalidate("Query", "post", fi.arguments || {});
+              // });
+              cache.invalidate({__typename: "Post", _id: (args as DeletePostMutationVariables).postId})
+            },
             vote: (_result, args, cache, info) => {
               const { postId, value } = args as VoteMutationVariables;
               const data = cache.readFragment(
