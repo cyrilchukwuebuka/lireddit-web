@@ -4,6 +4,7 @@ query Post($postId: Int!) {
     title
     text
     textSnippet
+    creatorId
     points
     voteStatus
     createdAt
