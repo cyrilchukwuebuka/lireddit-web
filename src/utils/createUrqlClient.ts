@@ -103,13 +103,6 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
         updates: {
           Mutation: {
             deletePost: (_result, args, cache, info) => {
-              // const allFields = cache.inspectFields("Query");
-              // const fieldInfos = allFields.filter(
-              //   (info) => info.fieldName === "posts"
-              // );
-              // fieldInfos.forEach((fi) => {
-              //   cache.invalidate("Query", "post", fi.arguments || {});
-              // });
               cache.invalidate({__typename: "Post", _id: (args as DeletePostMutationVariables).postId})
             },
             vote: (_result, args, cache, info) => {

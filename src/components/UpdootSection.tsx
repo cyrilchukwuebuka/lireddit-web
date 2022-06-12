@@ -12,7 +12,6 @@ export const UpdootSection: React.FC<UpdootSectionProps> = ({ post }) => {
     "updoot-loading" | "downdoot-loading" | "not-loading"
   >("not-loading");
   const [_, vote] = useVoteMutation();
-  console.log(post.voteStatus)
 
   return (
     <Flex direction="column" mr={4} align="center" justify="center">
